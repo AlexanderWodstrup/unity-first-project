@@ -15,28 +15,34 @@ public class PhotoCapture : MonoBehaviour
         storageRef = storage.GetReferenceFromUrl("gs://wiumsverden.appspot.com");
     }
 
-    private void Update()
+    public void TakePicture()
     {
-        if (Input.GetMouseButtonDown(0))
+        Start();
+        string filename = "SomePicture";
+        string filetype = ".png";
+        string filepath = Application.dataPath + "/" + filename + filetype;
+        
+        if (storage != null && storageRef != null)
         {
             Debug.Log("Starting screen shot process");
-            string filename = "SomePicture";
-            string filetype = ".png";
-            string filepath = Application.dataPath + "/" + filename + filetype;
-
             StartCoroutine(RecordFrame(filepath, filename + filetype));
         }
+        else
+        {
+            Debug.Log("No firebase reffernce found");
+        }
+        
     }
 
     IEnumerator RecordFrame(string filepath, string fileNameAndType)
     {
         yield return new WaitForEndOfFrame();
-        var texture = ScreenCapture.CaptureScreenshotAsTexture();
+        var texture = ScreenCapture.CaptureScreenshotAsTexture(3);
         
         // do something with texture
         byte[] bytes = texture.EncodeToPNG();
         File.WriteAllBytes(filepath, bytes);
-
+        
         // cleanup
         yield return new WaitUntil(() => File.Exists(filepath));
         Object.Destroy(texture);
@@ -46,6 +52,7 @@ public class PhotoCapture : MonoBehaviour
 
     private void UploadPicture(string filePath, string fileNameAndType)
     {
+
         if (File.Exists(filePath))
         {
             // File located on disk
