@@ -1,52 +1,77 @@
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Threading.Tasks;
+using Firebase.Storage;
 
 public class PhotoCapture : MonoBehaviour
 {
-    [Header("Photo Taker")]
-    [SerializeField] private Image photoDisplayArea;
-
-    private Texture2D screenCapture;
-    public int fileCounter;
+    FirebaseStorage storage;
+    StorageReference storageRef;
 
     private void Start()
     {
-        screenCapture = new Texture2D(Screen.width, Screen.height, TextureFormat.RGB24, false);
+        storage = FirebaseStorage.DefaultInstance;
+        storageRef = storage.GetReferenceFromUrl("gs://wiumsverden.appspot.com");
     }
 
     private void Update()
     {
-       if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            //TakeScreenshot
-            StartCoroutine(CapturePhote());
+            Debug.Log("Starting screen shot process");
+            string filename = "SomePicture";
+            string filetype = ".png";
+            string filepath = Application.dataPath + "/" + filename + filetype;
+
+            StartCoroutine(RecordFrame(filepath, filename + filetype));
         }
     }
 
-    IEnumerator CapturePhote()
+    IEnumerator RecordFrame(string filepath, string fileNameAndType)
     {
         yield return new WaitForEndOfFrame();
+        var texture = ScreenCapture.CaptureScreenshotAsTexture();
+        
+        // do something with texture
+        byte[] bytes = texture.EncodeToPNG();
+        File.WriteAllBytes(filepath, bytes);
 
-        Rect regionToRead = new Rect(0, 0, Screen.width, Screen.height);
+        // cleanup
+        yield return new WaitUntil(() => File.Exists(filepath));
+        Object.Destroy(texture);
 
-        screenCapture.ReadPixels(regionToRead, 0, 0, false);
-        screenCapture.Apply();
-
-        var bytes = screenCapture.EncodeToPNG();
-        File.WriteAllBytes(Application.dataPath + "/Backgrounds/" + fileCounter + ".png", bytes);
-        fileCounter++;
-
-
-
-        ShowPhoto();
+        UploadPicture(filepath, fileNameAndType);
     }
 
-    void ShowPhoto()
+    private void UploadPicture(string filePath, string fileNameAndType)
     {
-        Sprite photeSprite = Sprite.Create(screenCapture, new Rect(0.0f, 0.0f, screenCapture.width, screenCapture.height), new Vector2(0.5f, 0.5f), 100.0f);
-        photoDisplayArea.sprite = photeSprite;
+        if (File.Exists(filePath))
+        {
+            // File located on disk
+            string localFile = filePath;
+
+            // Create a reference to the file you want to upload
+            StorageReference riversRef = storageRef.Child("images/" + fileNameAndType);
+
+            // Upload the file to the path "images/rivers.jpg"
+            riversRef.PutFileAsync(localFile)
+                .ContinueWith((Task<StorageMetadata> task) =>
+                {
+                    if (task.IsFaulted || task.IsCanceled)
+                    {
+                        Debug.Log(task.Exception.ToString());
+                        // Uh-oh, an error occurred!
+                    }
+                    else
+                    {
+                        // Metadata contains file metadata such as size, content-type, and download URL.
+                        StorageMetadata metadata = task.Result;
+                        string md5Hash = metadata.Md5Hash;
+                        Debug.Log("Finished uploading...");
+                        //Debug.Log("md5 hash = " + md5Hash);
+                    }
+                });
+        }
     }
 }

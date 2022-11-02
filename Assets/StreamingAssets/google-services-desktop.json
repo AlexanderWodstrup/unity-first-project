@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "175010944243",
+    "project_id": "wiumsverden",
+    "storage_bucket": "wiumsverden.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175010944243:android:ba6abb97dbcab7c2311386",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.MyFirstVRproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175010944243-thlhlkp0v5m1k211eun4gtigrrdnhna1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBEmFe8O2phdY-KLaJilxxwXEhqrTBmW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175010944243-thlhlkp0v5m1k211eun4gtigrrdnhna1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:175010944243:android:0a2d8e9b76fd58cf311386",
+        "android_client_info": {
+          "package_name": "com.DefaultCompany.UnderwhelmingLuigi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "175010944243-thlhlkp0v5m1k211eun4gtigrrdnhna1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBEmFe8O2phdY-KLaJilxxwXEhqrTBmW0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "175010944243-thlhlkp0v5m1k211eun4gtigrrdnhna1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
