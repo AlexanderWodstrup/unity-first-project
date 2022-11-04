@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class ToggleButtonTest : MonoBehaviour
+public class TriggerScreenshot : MonoBehaviour
 {
     public PhotoCapture photoCapture;
     public InputActionReference toggleReference = null;
