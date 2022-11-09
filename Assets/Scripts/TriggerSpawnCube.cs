@@ -11,18 +11,41 @@ public class TriggerSpawnCube : MonoBehaviour
         //spawn cube 
     }
 
+    float value;
+    GameObject cube;
+    bool started = false;
+    Vector3 startPosition;
+
     private void Update()
     {
-        float value = activateReference.action.ReadValue<float>();
-        if (value == 1)
-        {
-            Activate();
+        
+        
+        value = activateReference.action.ReadValue<float>();
+        if (value == 1) { 
+        
+            
+            if (!started)
+            {
+                startPosition = gameObject.transform.position;
+                Activate();
+                started = true;
+            }
+            
+            if(started) {
+                cube.transform.position = (startPosition + gameObject.transform.position) / 2f;
+                cube.transform.localScale = startPosition - gameObject.transform.position;
+            }
         }
+
+        if (value == 0 && started)
+        {
+            started = false;
+        }
+
     }
 
     private void Activate()
     {
-        Vector3 newCube = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-        Instantiate(cubePrefab, newCube, Quaternion.Euler(gameObject.transform.eulerAngles));
+        cube = Instantiate(cubePrefab, startPosition, Quaternion.Euler(gameObject.transform.eulerAngles));
     }
 }
