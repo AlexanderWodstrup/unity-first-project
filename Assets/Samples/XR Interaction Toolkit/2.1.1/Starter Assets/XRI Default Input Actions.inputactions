@@ -1423,6 +1423,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "ToggleVideo",
+                    "type": "Button",
+                    "id": "3f4a1bbc-bf33-4951-8ee3-6b18ad363757",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -1445,6 +1454,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Activate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9f8c0a8a-4e48-4d28-9949-2fc1fc06b34c",
+                    "path": "<OculusTouchController>{RightHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleVideo",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

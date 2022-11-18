@@ -476,6 +476,7 @@ GameObject:
   - component: {fileID: 278645309}
   - component: {fileID: 278645311}
   - component: {fileID: 278645312}
+  - component: {fileID: 278645313}
   m_Layer: 0
   m_Name: Right Hand
   m_TagString: Untagged
@@ -801,6 +802,21 @@ MonoBehaviour:
     type: 3}
   cubePrefab: {fileID: 8571973869724601949, guid: 8662171bbd738f542944139cd86d1d30,
     type: 3}
+--- !u!114 &278645313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278645306}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8826acdf784a5e24db6f61a1272b28e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recordVideo: {fileID: 0}
+  toggleReference: {fileID: 6267641375461381664, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
 --- !u!1 &647227318
 GameObject:
   m_ObjectHideFlags: 0
@@ -880,7 +896,6 @@ GameObject:
   - component: {fileID: 675253566}
   - component: {fileID: 675253565}
   - component: {fileID: 675253567}
-  - component: {fileID: 675253568}
   m_Layer: 0
   m_Name: XR Origin
   m_TagString: Untagged
@@ -935,18 +950,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ActionAssets:
   - {fileID: -944628639613478452, guid: c348712bda248c246b8c49b3db54643f, type: 3}
---- !u!114 &675253568
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675253564}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3b77bbfedd80144493db69b4aeb4e2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &702198270
 GameObject:
   m_ObjectHideFlags: 0
