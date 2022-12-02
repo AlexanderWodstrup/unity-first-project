@@ -25,25 +25,19 @@ public class GetString : MonoBehaviour
     public void saveEmail(string s)
     {
         inputEmail = s;
-        Debug.Log("" + inputEmail);
+        
     }
     
     public void savePassword(string s)
     {
         inputPassword = s;
-        Debug.Log("" + inputPassword);
-    }
-
-    public void readAccount()
-    {
-        Debug.Log("Email: " + inputEmail);
-        Debug.Log("Password: " + inputPassword);
+        
     }
 
     public void login()
     {
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-        auth.SignInWithEmailAndPasswordAsync("a@a.aa", "AAAAAA").ContinueWith(task =>
+        auth.SignInWithEmailAndPasswordAsync(inputEmail, inputPassword).ContinueWith(task =>
         {
             isLoading = true;
             isError = false;

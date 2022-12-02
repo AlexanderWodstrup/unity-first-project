@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 350805743669734501}
   - component: {fileID: 350805743669734502}
+  - component: {fileID: 1252820683116281765}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -81,12 +82,37 @@ MonoBehaviour:
   m_Interactable: 1
   m_TargetGraphic: {fileID: 6383945207733588414}
   toggleTransition: 1
-  graphic: {fileID: 6383945207327017431}
+  graphic: {fileID: 0}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
-      m_Calls: []
-  m_IsOn: 1
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  m_IsOn: 0
+--- !u!114 &1252820683116281765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6383945207285223284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8da4ec420b99f14fa4019b056b0e1df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ProjectNaming: {fileID: 0}
 --- !u!1 &6383945207327017429
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,4 +345,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Toggle
+  m_Text: X

@@ -22,8 +22,11 @@ public class RecordVideo : MonoBehaviour
     StorageReference storageRef;
     private string filePath;
     private string fileName;
+    public UserData UserData;
+    
     public void StartVideo(int value)
     {
+        
         if (value == 1)
         {
             if (_mRecorderController.IsRecording() == false)
@@ -48,9 +51,8 @@ public class RecordVideo : MonoBehaviour
 
     IEnumerator WaitForVideoFileToBeProcessed()
     {
-        Debug.Log("here");
         _mRecorderController.StopRecording();
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(10);
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         UploadVideo();
     }
@@ -59,7 +61,7 @@ public class RecordVideo : MonoBehaviour
     {
         string[] wildcardSplit = DateTime.Now.ToString().Split(" ");
         string wildcard = wildcardSplit[0].Replace("/","-") + " - " + wildcardSplit[1].Replace(":", "-") + " " + wildcardSplit[2];
-        fileName = "Penis - "+wildcard;
+        fileName = UserData.getDrawingName() + " - " + wildcard;
         filePath = Directory.GetCurrentDirectory() + "\\Video\\" + fileName;
         videoRecorder.OutputFile = filePath;
         filePath = filePath + ".mp4";
@@ -71,6 +73,7 @@ public class RecordVideo : MonoBehaviour
         RecorderOptions.VerboseMode = false;
         _mRecorderController.PrepareRecording();
         _mRecorderController.StartRecording();
+        Debug.Log("Recording status: " + _mRecorderController.IsRecording());
     }
 
     private void Start()
@@ -80,7 +83,7 @@ public class RecordVideo : MonoBehaviour
         
         controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
         _mRecorderController = new RecorderController(controllerSettings);
-
+        
         // Image sequence
         videoRecorder = ScriptableObject.CreateInstance<MovieRecorderSettings>();
         videoRecorder.name = "My Video Recorder";
@@ -99,16 +102,14 @@ public class RecordVideo : MonoBehaviour
     
     private void UploadVideo()
     {
-        Debug.Log(filePath);
-        Debug.Log(fileName);
         if (File.Exists(filePath))
         {
-            
             // File located on disk
             string localFile = filePath;
 
             // Create a reference to the file you want to upload
-            StorageReference riversRef = storageRef.Child("videos/" + fileName + ".mp4");
+             
+            StorageReference riversRef = storageRef.Child(UserData.getFirebaseGroup().groupId + "/" + UserData.getProjectName() + "/" + fileName + ".mp4");
 
             var newMetadata = new MetadataChange();
             newMetadata.ContentType = "video/mp4";
@@ -117,6 +118,7 @@ public class RecordVideo : MonoBehaviour
             {
                 if (task.IsFaulted || task.IsCanceled)
                 {
+                    Debug.Log("Fuck");
                     Debug.Log(task.Exception.ToString());
                     // Uh-oh, an error occurred!
                 }
