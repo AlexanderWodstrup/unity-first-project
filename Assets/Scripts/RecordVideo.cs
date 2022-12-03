@@ -23,10 +23,11 @@ public class RecordVideo : MonoBehaviour
     private string filePath;
     private string fileName;
     public UserData UserData;
+    public UpdateGroupFiles updateGroupFiles;
     
     public void StartVideo(int value)
     {
-        
+        updateGroupFiles = gameObject.AddComponent(typeof(UpdateGroupFiles)) as UpdateGroupFiles;
         if (value == 1)
         {
             if (_mRecorderController.IsRecording() == false)
@@ -52,7 +53,7 @@ public class RecordVideo : MonoBehaviour
     IEnumerator WaitForVideoFileToBeProcessed()
     {
         _mRecorderController.StopRecording();
-        yield return new WaitForSeconds(10);
+        yield return new WaitForSeconds(3);
         // ReSharper disable once Unity.PerformanceCriticalCodeInvocation
         UploadVideo();
     }
@@ -108,8 +109,9 @@ public class RecordVideo : MonoBehaviour
             string localFile = filePath;
 
             // Create a reference to the file you want to upload
-             
-            StorageReference riversRef = storageRef.Child(UserData.getFirebaseGroup().groupId + "/" + UserData.getProjectName() + "/" + fileName + ".mp4");
+            string firebaseFilePath = UserData.getFirebaseGroup().groupId + "/" + UserData.getProjectName() + "/" +
+                                      "videos/" + fileName + ".mp4";
+            StorageReference riversRef = storageRef.Child(firebaseFilePath);
 
             var newMetadata = new MetadataChange();
             newMetadata.ContentType = "video/mp4";
@@ -127,6 +129,11 @@ public class RecordVideo : MonoBehaviour
                     // Metadata contains file metadata such as size, content-type, and download URL.
                     StorageMetadata metadata = task.Result;
                     string md5Hash = metadata.Md5Hash;
+                    
+                    updateGroupFiles.UserData = UserData;
+                        
+                    updateGroupFiles.AddNewFile(firebaseFilePath, fileName, ".mp4", UserData.getProjectName());
+
                     Debug.Log("Finished uploading...");
                     //Debug.Log("md5 hash = " + md5Hash);
                 }

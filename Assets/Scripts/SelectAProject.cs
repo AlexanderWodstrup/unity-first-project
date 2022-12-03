@@ -12,27 +12,21 @@ using UnityEngine.UI;
 [FirestoreData]
 public struct FirebaseGroups
 {
-    [FirestoreProperty]
-    public string groupId { get; set; }
-    
-    [FirestoreProperty]
-    public string groupName { get; set; }
+    [FirestoreProperty] public string groupId { get; set; }
+
+    [FirestoreProperty] public string groupName { get; set; }
 }
 
 [FirestoreData]
 public struct FirebaseUser
 {
-    [FirestoreProperty]
-    public string mail { get; set; }
-    
-    [FirestoreProperty]
-    public string name { get; set; }
-    
-    [FirestoreProperty]
-    public string pbPath { get; set; }
-    
-    [FirestoreProperty]
-    public FirebaseGroups[] groups { get; set; }
+    [FirestoreProperty] public string mail { get; set; }
+
+    [FirestoreProperty] public string name { get; set; }
+
+    [FirestoreProperty] public string pbPath { get; set; }
+
+    [FirestoreProperty] public FirebaseGroups[] groups { get; set; }
 }
 
 public class SelectAProject : MonoBehaviour
@@ -45,7 +39,7 @@ public class SelectAProject : MonoBehaviour
     [SerializeField] private GameObject ProjectNaming;
     [SerializeField] private TextMeshProUGUI GroupName;
     private FirebaseGroups[] _firebaseGroups;
-    
+
 
     // Start is called before the first frame update
     void Start()
@@ -69,12 +63,11 @@ public class SelectAProject : MonoBehaviour
                     _firebaseGroups = firebaseUser.groups;
                     foreach (var firebaseUserGroup in firebaseUser.groups)
                     {
-                        
                         Vector3 postion = prefabParrent.transform.position;
-                        
+
                         Text prefabText = prefab.GetComponentInChildren<Text>();
                         prefabText.text = firebaseUserGroup.groupName;
-                        
+
                         GameObject newToggle = Instantiate(prefab, prefabParrent.transform);
                         newToggle.name = "Toggle(" + firebaseUserGroup.groupName + ")";
                         var comp = newToggle.GetComponent<SetNamingScript>();
@@ -83,16 +76,17 @@ public class SelectAProject : MonoBehaviour
                         comp.UserDataComponent = UserDataComponent;
                         comp._FirebaseGroups = firebaseUserGroup;
                         newToggle.transform.localPosition = new Vector3(postion.x - 10, postion.y + yPos, postion.z);
-                        
+
                         yPos = yPos - 40;
                     }
-                    
-                } else {
+                }
+                else
+                {
                     Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
                 }
             });
     }
-    
+
     private string inputProjectName;
     private string inputDrawingName;
 
@@ -100,7 +94,7 @@ public class SelectAProject : MonoBehaviour
     {
         UserDataComponent.storeProjectName(inputProjectName);
         UserDataComponent.storeDrawingName(inputDrawingName);
-        
+
         StartCoroutine(LoadAsyncScene());
     }
 
@@ -113,17 +107,17 @@ public class SelectAProject : MonoBehaviour
     {
         inputDrawingName = s;
     }
-    
+
     IEnumerator LoadAsyncScene()
     {
         Debug.Log("Completed - Loading new scene");
-            
-            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Main VR Scene");
-            
-            // Wait until the asynchronous scene fully loads
-            while (!asyncLoad.isDone)
-            {
-                yield return null;
-            }
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync("Main VR Scene");
+
+        // Wait until the asynchronous scene fully loads
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 }

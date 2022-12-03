@@ -7,6 +7,8 @@ public class TriggerScreenshot : MonoBehaviour
 {
     public PhotoCapture photoCapture;
     public InputActionReference toggleReference = null;
+    public GameObject UserDataGameObject;
+    private UserData UserData;
 
     private void Awake() 
     {
@@ -21,12 +23,9 @@ public class TriggerScreenshot : MonoBehaviour
 
     private void Toggle(InputAction.CallbackContext context)
     {
-        //bool isActive = !gameObject.activeSelf;
-        //gameObject.SetActive(isActive);
-        //Debug.Log("Button: " + isActive);
+        var comp = UserDataGameObject.GetComponent<GetUserData>();
+        UserData = comp.UserData;
+        photoCapture.UserData = UserData;
         photoCapture.TakePicture();
-        //gameObject.SetActive(!isActive);
-        //Debug.Log("Button: " + !isActive);
-        
     }
 }

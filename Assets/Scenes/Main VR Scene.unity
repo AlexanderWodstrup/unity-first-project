@@ -786,6 +786,7 @@ MonoBehaviour:
   photoCapture: {fileID: 0}
   toggleReference: {fileID: 4885400932428363829, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  UserDataGameObject: {fileID: 1061245315}
 --- !u!114 &278645312
 MonoBehaviour:
   m_ObjectHideFlags: 0
