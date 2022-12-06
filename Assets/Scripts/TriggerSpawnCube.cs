@@ -6,11 +6,6 @@ public class TriggerSpawnCube : MonoBehaviour
 {
     public InputActionReference activateReference = null;
     public GameObject cubePrefab;
-    private void Awake()
-    {
-        //spawn cube 
-    }
-
     float value;
     GameObject cube;
     bool started = false;
