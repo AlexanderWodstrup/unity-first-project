@@ -75,7 +75,6 @@ public class UpdateGroupFiles : MonoBehaviour
 
     public void AddNewFile(string filePath, string fileName, string fileType, string projectName)
     {
-        Debug.Log("AddNewFile called");
         db.Collection("groups").Document(UserData.getFirebaseGroup().groupId).GetSnapshotAsync()
             .ContinueWithOnMainThread(task =>
             {
@@ -93,8 +92,6 @@ public class UpdateGroupFiles : MonoBehaviour
                     Debug.Log(String.Format("Document {0} does not exist!", snapshot.Id));
                 }
             });
-
-        Debug.Log("FirebaseGroup name: " + _firebaseGroup.name);
     }
 
     private FirebaseGroup ChangeFirebaseGroupData(FirebaseGroup group, string filePath, string fileName,
@@ -116,7 +113,7 @@ public class UpdateGroupFiles : MonoBehaviour
             var projectIndex = newGroup.projects.FindIndex((item) => item.name == projectName);
 
             newGroup.projects[projectIndex].files.Add(new FirebaseGroupProjectFile()
-                { filePath = filePath, name = fileName, type = fileType });
+                { filePath = filePath, name = UserData.getDrawingName(), type = fileType });
 
             
         }
@@ -126,11 +123,11 @@ public class UpdateGroupFiles : MonoBehaviour
             {
                 name = projectName,
                 files = new List<FirebaseGroupProjectFile>()
-                    { new FirebaseGroupProjectFile() { filePath = filePath, name = fileName, type = fileType } }
+                    { new FirebaseGroupProjectFile() { filePath = filePath, name = UserData.getDrawingName(), type = fileType } }
             });
         }
         
-        newGroup.posts.Add(new FirebaseGroupPost(){label = fileName + " was uploaded from VR. Type: " + fileType, timestamp = Timestamp.GetCurrentTimestamp()});
+        newGroup.posts.Add(new FirebaseGroupPost(){label = UserData.getDrawingName() + " was uploaded from VR. Project: " +UserData.getProjectName() + ". Type: " + fileType, timestamp = Timestamp.GetCurrentTimestamp()});
         
         return newGroup;
     }
