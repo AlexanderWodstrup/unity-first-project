@@ -1375,13 +1375,22 @@
             ]
         },
         {
-            "name": "Custom",
+            "name": "UI Open",
             "id": "8878fdef-ee30-4def-ab50-ecba0339ca28",
             "actions": [
                 {
-                    "name": "Toggle",
+                    "name": "TogglePrefabCanvas",
                     "type": "Button",
                     "id": "d3708531-bc1b-4c09-a399-6dfbc2fbce88",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleMovementCanvas",
+                    "type": "Button",
+                    "id": "40f52d92-e83e-4071-956d-dfe566490b8a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1396,7 +1405,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Toggle",
+                    "action": "TogglePrefabCanvas",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae951886-ba85-4a2d-a4a7-7ec063975759",
+                    "path": "<XRController>{LeftHand}/secondaryButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleMovementCanvas",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
