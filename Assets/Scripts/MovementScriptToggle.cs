@@ -33,12 +33,14 @@ public class MovementScriptToggle : MonoBehaviour
 
     public void MovementActive()
     {
+        
         movementScript.enabled = true;
         wheelForceActive = false;
     }
     
     public void WheelForceActive()
     {
+        movementScript = xrOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
         movementScript.enabled = false;
         wheelForceActive = true;
     }

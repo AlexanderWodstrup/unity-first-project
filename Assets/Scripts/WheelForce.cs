@@ -8,18 +8,20 @@ using UnityEngine.XR.Interaction.Toolkit;
 
 public class WheelForce : MonoBehaviour
 {
+    private WheelCollisionList wheelCollisionList;
+    
     public InputActionProperty leftHandMoveObject;
     private Vector2 leftHandValue;
 
     private MovementScriptToggle mvmScript;
-
-    //private GameObject linkedTo;
-    private List<GameObject> linkedTo;
+    
+    private List<GameObject> linkedToLocal;
 
     private void Start()
     {
         mvmScript = GameObject.Find("WristCanvas").GetComponent<MovementScriptToggle>();
-        linkedTo = new List<GameObject>();
+        wheelCollisionList = GameObject.Find("WristCanvas").GetComponent<WheelCollisionList>();
+        linkedToLocal = new List<GameObject>();
     }
 
     private void Update()
@@ -47,37 +49,80 @@ public class WheelForce : MonoBehaviour
 
     private void MoveForward()
     {
-        transform.Translate(mvmScript.sliderValue * Vector3.forward * Time.deltaTime);
-        foreach (var link in linkedTo)
+        transform.Translate((mvmScript.sliderValue / 10f) * Vector3.forward * Time.deltaTime);
+        foreach (var link in linkedToLocal)
         {
-            link.transform.Translate(mvmScript.sliderValue * Vector3.forward * Time.deltaTime);
+            if (link == null)
+            {
+                linkedToLocal.Remove(link);
+                return;
+            }
+            link.transform.Translate((mvmScript.sliderValue / 10f) * Vector3.forward * Time.deltaTime);
         }
     }
     
     private void MoveBackward()
     {
-        transform.Translate(mvmScript.sliderValue * Vector3.back * Time.deltaTime);
-        foreach (var link in linkedTo)
+        transform.Translate((mvmScript.sliderValue / 10f) * Vector3.back * Time.deltaTime);
+        foreach (var link in linkedToLocal)
         {
-            link.transform.Translate(mvmScript.sliderValue * Vector3.back * Time.deltaTime);
+            if (link == null)
+            {
+                linkedToLocal.Remove(link);
+                return;
+            }
+            link.transform.Translate((mvmScript.sliderValue / 10f) * Vector3.back * Time.deltaTime);
         }
     }
 
+    private bool rotationSet;
+    
     private void OnCollisionStay(Collision collision)
     {
-    
-        if (collision.collider.tag == "Collidable")
+        if (collision.transform.CompareTag("Collidable"))
         {
-            if (!linkedTo.Contains(collision.gameObject))
+            if (!wheelCollisionList.linkedTo.Contains(collision.gameObject))
             {
-                linkedTo.Add(collision.gameObject);
+                linkedToLocal.Add(collision.gameObject);
+            }
+            else if (!rotationSet)
+            {
+                print("wat");
+                transform.rotation = collision.transform.rotation; 
+                rotationSet = true;
+            }
+
+            if (rotationSet)
+            {
+                foreach (var link in linkedToLocal)
+                {
+                    if (link == null)
+                    {
+                        linkedToLocal.Remove(link);
+                        return;
+                    }
+                    link.transform.rotation = transform.rotation;
+                }
             }
             
-            foreach (var link in linkedTo)
+            wheelCollisionList.AddToList(collision.gameObject);
+
+            foreach (var link in linkedToLocal)
             {
-                link.transform.rotation = transform.rotation;
+                if (link == null)
+                {
+                    linkedToLocal.Remove(link);
+                    return;
+                }
             }
         }
     }
-  
+
+    private void OnDestroy()
+    {
+        foreach (var link in linkedToLocal)
+        {
+            wheelCollisionList.linkedTo.Remove(link);
+        }
+    }
 }
