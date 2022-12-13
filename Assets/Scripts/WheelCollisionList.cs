@@ -16,7 +16,6 @@ public class WheelCollisionList : MonoBehaviour
     {
         if (!linkedTo.Contains(link))
         {
-            print("added");
             linkedTo.Add(link);
         }
     }

@@ -30,10 +30,10 @@ public class WheelForce : MonoBehaviour
         {
             leftHandValue = leftHandMoveObject.action?.ReadValue<Vector2>() ?? Vector2.zero;
             
-            if (leftHandValue.x is > 0 and < 1)
+            if (leftHandValue.y is > 0 and < 1)
             {
                 MoveForward();
-            } else if (leftHandValue.x is < 0 and > -1)
+            } else if (leftHandValue.y is < 0 and > -1)
             {
                 MoveBackward();
             } 
@@ -49,7 +49,7 @@ public class WheelForce : MonoBehaviour
 
     private void MoveForward()
     {
-        transform.Translate((mvmScript.sliderValue / 10f) * Vector3.forward * Time.deltaTime);
+        transform.Translate((mvmScript.sliderValue / 5f) * Vector3.forward * Time.deltaTime);
         foreach (var link in linkedToLocal)
         {
             if (link == null)
@@ -57,13 +57,13 @@ public class WheelForce : MonoBehaviour
                 linkedToLocal.Remove(link);
                 return;
             }
-            link.transform.Translate((mvmScript.sliderValue / 10f) * Vector3.forward * Time.deltaTime);
+            link.transform.Translate((mvmScript.sliderValue / 5f) * Vector3.forward * Time.deltaTime);
         }
     }
     
     private void MoveBackward()
     {
-        transform.Translate((mvmScript.sliderValue / 10f) * Vector3.back * Time.deltaTime);
+        transform.Translate((mvmScript.sliderValue / 5f) * Vector3.back * Time.deltaTime);
         foreach (var link in linkedToLocal)
         {
             if (link == null)
@@ -71,7 +71,7 @@ public class WheelForce : MonoBehaviour
                 linkedToLocal.Remove(link);
                 return;
             }
-            link.transform.Translate((mvmScript.sliderValue / 10f) * Vector3.back * Time.deltaTime);
+            link.transform.Translate((mvmScript.sliderValue / 5f) * Vector3.back * Time.deltaTime);
         }
     }
 
@@ -81,32 +81,6 @@ public class WheelForce : MonoBehaviour
     {
         if (collision.transform.CompareTag("Collidable"))
         {
-            if (!wheelCollisionList.linkedTo.Contains(collision.gameObject))
-            {
-                linkedToLocal.Add(collision.gameObject);
-            }
-            else if (!rotationSet)
-            {
-                print("wat");
-                transform.rotation = collision.transform.rotation; 
-                rotationSet = true;
-            }
-
-            if (rotationSet)
-            {
-                foreach (var link in linkedToLocal)
-                {
-                    if (link == null)
-                    {
-                        linkedToLocal.Remove(link);
-                        return;
-                    }
-                    link.transform.rotation = transform.rotation;
-                }
-            }
-            
-            wheelCollisionList.AddToList(collision.gameObject);
-
             foreach (var link in linkedToLocal)
             {
                 if (link == null)
@@ -115,6 +89,26 @@ public class WheelForce : MonoBehaviour
                     return;
                 }
             }
+            
+            if (!wheelCollisionList.linkedTo.Contains(collision.gameObject))
+            {
+                linkedToLocal.Add(collision.gameObject);
+            }
+            else if (!rotationSet)
+            {
+                transform.rotation = collision.transform.rotation; 
+                rotationSet = true;
+            }
+
+            if (rotationSet)
+            {
+                foreach (var link in linkedToLocal)
+                {
+                    link.transform.rotation = transform.rotation;
+                }
+            }
+            
+            wheelCollisionList.AddToList(collision.gameObject);
         }
     }
 

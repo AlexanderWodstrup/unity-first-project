@@ -20,11 +20,8 @@ public class SetPrefab : MonoBehaviour
     {
         if (!eraser.activeSelf)
         {
-            prefab = null;
             CleanPrefabs();
             eraser.SetActive(true);
-            
-   
         }
         else
         {
@@ -49,7 +46,6 @@ public class SetPrefab : MonoBehaviour
         {
             CleanPrefabs();
             hand.SetActive(true);
-            prefab = null;
             toggled = false;
         }
         else
@@ -67,7 +63,6 @@ public class SetPrefab : MonoBehaviour
         {
             CleanPrefabs();
             hand.SetActive(true);
-            prefab = null;
             toggled = false;
         }
         else
@@ -85,7 +80,6 @@ public class SetPrefab : MonoBehaviour
         {
             CleanPrefabs();
             hand.SetActive(true);
-            prefab = null;
             toggled = false;
         }
         else

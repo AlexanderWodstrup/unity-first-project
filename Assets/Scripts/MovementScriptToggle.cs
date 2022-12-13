@@ -11,8 +11,8 @@ public class MovementScriptToggle : MonoBehaviour
     private ActionBasedContinuousMoveProvider movementScript;
     
     public bool wheelForceActive;
+    private bool canPress;
     
-    //Slider value
     [SerializeField] private Slider slider;
     [SerializeField] private TextMeshProUGUI sliderText;
     public float sliderValue;
@@ -33,7 +33,8 @@ public class MovementScriptToggle : MonoBehaviour
 
     public void MovementActive()
     {
-        
+        if (!canPress) return;
+        movementScript = xrOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
         movementScript.enabled = true;
         wheelForceActive = false;
     }
@@ -43,11 +44,11 @@ public class MovementScriptToggle : MonoBehaviour
         movementScript = xrOrigin.GetComponent<ActionBasedContinuousMoveProvider>();
         movementScript.enabled = false;
         wheelForceActive = true;
+        canPress = true;
     }
 
     public void ToggleValue()
     {
         toggleForceValue = !toggleForceValue;
-        Debug.Log("toggle " + toggleForceValue);
     }
 }
