@@ -32,14 +32,14 @@ public class TriggerSpawnPrefab : MonoBehaviour
             
             if (!started)
             {
-                startPosition = transform.InverseTransformPoint(gameObject.transform.position);
+                startPosition = handPrefab.transform.InverseTransformPoint(gameObject.transform.position);
                 Activate();
                 started = true;
             }
             
             if(started && prefabScript.prefab == prefabScript.cubePrefab || prefabScript.prefab == prefabScript.spherePrefab) {
-                handPrefab.transform.position = (startPosition + transform.InverseTransformPoint(gameObject.transform.position)) / 2f;
-                handPrefab.transform.localScale = startPosition - transform.InverseTransformPoint(gameObject.transform.position);
+                handPrefab.transform.position = (startPosition + handPrefab.transform.InverseTransformPoint(gameObject.transform.position)) / 2f;
+                handPrefab.transform.localScale = startPosition - handPrefab.transform.InverseTransformPoint(gameObject.transform.position);
             }
         }
 
@@ -60,7 +60,7 @@ public class TriggerSpawnPrefab : MonoBehaviour
         {
             // Vector3 newWheel = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
             // handPrefab = Instantiate(prefabScript.prefab, newWheel, Quaternion.Euler(gameObject.transform.eulerAngles));
-            handPrefab = Instantiate(prefabScript.prefab, transform.InverseTransformPoint(gameObject.transform.position), Quaternion.Euler(gameObject.transform.eulerAngles));
+            handPrefab = Instantiate(prefabScript.prefab, handPrefab.transform.InverseTransformPoint(gameObject.transform.position), Quaternion.Euler(gameObject.transform.eulerAngles));
         } 
     }
 }
